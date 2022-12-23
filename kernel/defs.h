@@ -106,6 +106,24 @@ void            yield(void);
 int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
 int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
+void            trace(int traceMask);
+int             waitx(uint64, uint*, uint*);
+void            update_time(void);
+int             set_priority(int pid, int newPriority);
+int             _priority(struct proc *);
+int             settickets(int tickets);
+void initializeQueues();
+void push(struct proc *p, int qNo);
+void pop(struct proc *p, int qNo);
+struct proc *popFront(int qNo);
+struct Queue
+{
+   int sizeQueue[5];
+   int lastIndex[5];
+   int maxTicks[5];
+};
+extern struct Queue queues;
+extern struct proc *procList[5][64];
 
 // swtch.S
 void            swtch(struct context*, struct context*);
@@ -134,9 +152,9 @@ int             strncmp(const char*, const char*, uint);
 char*           strncpy(char*, const char*, int);
 
 // syscall.c
-void            argint(int, int*);
+int             argint(int, int*);
 int             argstr(int, char*, int);
-void            argaddr(int, uint64 *);
+int             argaddr(int, uint64 *);
 int             fetchstr(uint64, char*, int);
 int             fetchaddr(uint64, uint64*);
 void            syscall();

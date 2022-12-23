@@ -22,6 +22,12 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+void trace(int traceMask);
+int sigalarm(int interval, void (*handler)());
+int sigreturn(void);
+int waitx(int*, int* wtime, int* rtime);
+int set_priority(int pid, int newPriority);
+int settickets(int tickets);
 
 // ulib.c
 int stat(const char*, struct stat*);
